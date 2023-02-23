@@ -2,10 +2,10 @@
 
 A friendly helper for your incident logging
 
-# INSTALL
+## INSTALL
 
 ```npm i incident-helper```
 
-# EXAMPLES 
+## EXAMPLES 
 
 See example usage under directory example/
