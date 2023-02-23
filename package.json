@@ -1,6 +1,5 @@
 {
   "name": "alert-helper",
-  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +7,9 @@
     "test": "vitest dev",
     "test:ci": "vitest run --silent",
     "ts:standard": "ts-standard --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "tsc --build",
+    "example": "npm run build && node dist/example/send-error.js"
   },
   "keywords": [],
   "author": "",
@@ -16,10 +17,11 @@
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
     "@types/uuid": "^9.0.1",
+    "husky": "^8.0.0",
     "ts-standard": "^12.0.2",
     "typescript": "^4.9.5",
     "vitest": "^0.28.5",
-    "husky": "^8.0.0"
+    "@types/node": "^18.14.1"
   },
   "dependencies": {
     "uuid": "^9.0.0"
