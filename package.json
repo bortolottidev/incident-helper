@@ -1,7 +1,7 @@
 {
   "name": "alert-helper",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "A friendly helper for your incident log",
   "main": "index.js",
   "scripts": {
     "test": "vitest dev",
@@ -11,8 +11,8 @@
     "build": "tsc --build",
     "example": "npm run build && node dist/example/send-error.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["google", "chat", "alert", "log"],
+  "author": "Daniele Bortolotti",
   "license": "ISC",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
