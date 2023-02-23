@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@tsconfig/recommended': ^1.0.2
   '@types/uuid': ^9.0.1
+  husky: ^8.0.0
   ts-standard: ^12.0.2
   typescript: ^4.9.5
   uuid: ^9.0.0
@@ -14,6 +15,7 @@ dependencies:
 devDependencies:
   '@tsconfig/recommended': 1.0.2
   '@types/uuid': 9.0.1
+  husky: 8.0.3
   ts-standard: 12.0.2_typescript@4.9.5
   typescript: 4.9.5
   vitest: 0.28.5
@@ -1422,6 +1424,12 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+    dev: true
+
+  /husky/8.0.3:
+    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /ignore/5.2.4:

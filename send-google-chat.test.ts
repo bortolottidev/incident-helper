@@ -47,12 +47,16 @@ it('should send an error to google chat', async () => {
 })
 
 it('should throw if missing webhook url', () => {
+  // eslint-disable-next-line no-new
   expect(() => { new GoogleChatService(null as any, logger) }).toThrowError()
+  // eslint-disable-next-line no-new
   expect(() => { new GoogleChatService(undefined as any, logger) }).toThrowError()
 })
 
 it('should throw if missing logger', () => {
+  // eslint-disable-next-line no-new
   expect(() => { new GoogleChatService('url', null as any) }).toThrowError()
+  // eslint-disable-next-line no-new
   expect(() => { new GoogleChatService('url', undefined as any) }).toThrowError()
 })
 

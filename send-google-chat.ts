@@ -14,10 +14,10 @@ export class GoogleChatService {
     assert(logger, 'Error Logger not provided')
   }
 
-  public async sendIncidentToGoogleChat (error: Error & { serializeToIncidentChat?: () => string }) {
+  public async sendIncidentToGoogleChat (error: Error & { serializeToIncidentChat?: () => string }): Promise<void> {
     try {
       const incidentWebhook = this.googleChatWebhook
-      const msg = error.stack || 'UNKNOWN'
+      const msg = error.stack ?? 'UNKNOWN'
       const props = (error.serializeToIncidentChat != null) ? error.serializeToIncidentChat() : null
 
       await this.sendToGoogleChat({ msg, tag: 'stack', props }, incidentWebhook)
@@ -33,12 +33,15 @@ export class GoogleChatService {
    * @return{boolean} truthy if msg is correctly dispatched
    */
   private async sendToGoogleChat (data: { props: string | null, msg: string, tag: string, msgId?: string, thread?: string }, webhookURL: string): Promise<boolean> {
-    const thread = data.thread || process.env.NODE_ENV || 'SVILUPPO'
+    const thread = data.thread ?? process.env.NODE_ENV ?? 'DEVELOPMENT'
     const url = `${webhookURL}&threadKey=${thread}`
 
     const msgId = data.msgId ?? uuid()
-    const text = `[${thread}#${msgId}] @ ${new Date().toISOString()}\n\n${data.props ? ('PROPS 📋 ' + data.props + '\n') : ''
-      }${data.tag.toUpperCase()} 📋 ${data.msg}`
+    const dateFormatted = new Date().toISOString()
+    const optionalPropsFormatted = data.props !== null ? ('PROPS 📋 ' + data.props + '\n') : ''
+    const text = `[${thread}#${msgId}] @ ${dateFormatted}\n\n` +
+      `${optionalPropsFormatted}` +
+      `${data.tag.toUpperCase()} 📋 ${data.msg}`
 
     const body = JSON.stringify({ text })
     const headers = {
@@ -54,7 +57,7 @@ export class GoogleChatService {
         error = err
       })
 
-    if (error) {
+    if (error !== null) {
       this.logger.error({ msg: 'Cannot send msg to google chat', body })
       this.logger.error(error)
       return false

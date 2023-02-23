@@ -1,12 +1,12 @@
 import { vi } from 'vitest'
 
 export const webhookError = new Error('Webhook test doesnt work properly')
-const buildFetchResponse = async (responseBody: any) => await Promise.resolve({
+const buildFetchResponse = async (responseBody: any): Promise<{ json: () => any }> => await Promise.resolve({
   json: () => responseBody
 })
 
 const FetchModuleMock = vi.fn().mockImplementation((url: string) => {
-  console.log({ url })
+  console.log({ msg: 'fetch call..', url })
   if (url === 'fetch/health') {
     return buildFetchResponse({ healthy: true })
   }
@@ -21,4 +21,3 @@ const FetchModuleMock = vi.fn().mockImplementation((url: string) => {
 })
 
 vi.stubGlobal('fetch', FetchModuleMock)
-
