@@ -1,5 +1,5 @@
 {
-  "name": "alert-helper",
+  "name": "incident-helper",
   "version": "0.1.0",
   "description": "A friendly helper for your incident log",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "build": "tsc --build",
     "example": "npm run build && node dist/example/send-error.js"
   },
-  "keywords": ["google", "chat", "alert", "log"],
+  "keywords": ["google", "chat", "alert", "log", "incident"],
   "author": "Daniele Bortolotti",
   "license": "ISC",
   "devDependencies": {

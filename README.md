@@ -1,4 +1,4 @@
-# ALERT HELPER
+# INCIDENT HELPER
 
 A friendly helper for your incident logging
 
