@@ -11,11 +11,11 @@ specifiers:
   vitest: ^0.28.5
 
 dependencies:
-  '@types/node': 18.14.1
   uuid: 9.0.0
 
 devDependencies:
   '@tsconfig/recommended': 1.0.2
+  '@types/node': 18.14.1
   '@types/uuid': 9.0.1
   husky: 8.0.3
   ts-standard: 12.0.2_typescript@4.9.5
@@ -304,6 +304,7 @@ packages:
 
   /@types/node/18.14.1:
     resolution: {integrity: sha512-QH+37Qds3E0eDlReeboBxfHbX9omAcBCXEzswCu6jySP642jiM3cYSIkU/REqwhCUqXdonHFuBfJDiAJxMNhaQ==}
+    dev: true
 
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}

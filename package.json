@@ -11,6 +11,10 @@
     "build": "tsc --build",
     "example": "npm run build && node dist/example/send-error.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bortolottidev/incident-helper"
+  },
   "keywords": ["google", "chat", "alert", "log", "incident"],
   "author": "Daniele Bortolotti",
   "license": "ISC",
