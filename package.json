@@ -1,6 +1,6 @@
 {
   "name": "incident-helper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A friendly helper for your incident log",
   "main": "index.js",
   "scripts": {
