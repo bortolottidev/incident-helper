@@ -1,15 +1,17 @@
 {
   "name": "incident-helper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A friendly helper for your incident log",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "vitest dev",
     "test:ci": "vitest run --silent",
     "ts:standard": "ts-standard --fix",
     "prepare": "husky install",
     "build": "tsc --build",
-    "example": "npm run build && node dist/example/send-error.js"
+    "example": "pnpm run build && node dist/example/send-error.js",
+    "publish": "pnpm run test:ci && pnpm run build && pnpm publish"
   },
   "repository": {
     "type": "git",

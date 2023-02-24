@@ -1,6 +1,8 @@
 import { vi, expect, it, beforeEach, afterAll } from 'vitest'
-import { GoogleChatService } from './send-google-chat'
-import { webhookError } from './setup-global-fetch'
+import incident from './index'
+import { webhookError } from '../setup-global-fetch'
+
+const { GoogleChatService } = incident
 
 const logger = {
   error: vi.fn(),
