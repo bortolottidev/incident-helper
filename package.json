@@ -1,6 +1,6 @@
 {
   "name": "incident-helper",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A friendly helper for your incident log",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
