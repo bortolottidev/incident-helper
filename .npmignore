@@ -1,3 +1,4 @@
 src/
+example_dist/
 vitest.config.ts
 setup-global-fetch.ts

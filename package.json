@@ -7,27 +7,35 @@
   "scripts": {
     "test": "vitest dev",
     "test:ci": "vitest run --silent",
+    "test:coverage": "vitest run --coverage",
     "ts:standard": "ts-standard --fix",
     "prepare": "husky install",
     "build": "tsc --build",
-    "example": "pnpm run build && node dist/example/send-error.js",
+    "example": "tsc -p ./tsconfig.example.json && node example_dist/example/send-error.js",
     "publish": "pnpm run test:ci && pnpm run build && pnpm publish"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/bortolottidev/incident-helper"
   },
-  "keywords": ["google", "chat", "alert", "log", "incident"],
+  "keywords": [
+    "google",
+    "chat",
+    "alert",
+    "log",
+    "incident"
+  ],
   "author": "Daniele Bortolotti",
   "license": "ISC",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
+    "@types/node": "^18.14.1",
     "@types/uuid": "^9.0.1",
+    "@vitest/coverage-c8": "^0.29.2",
     "husky": "^8.0.0",
     "ts-standard": "^12.0.2",
     "typescript": "^4.9.5",
-    "vitest": "^0.28.5",
-    "@types/node": "^18.14.1"
+    "vitest": "^0.29.2"
   },
   "dependencies": {
     "uuid": "^9.0.0"

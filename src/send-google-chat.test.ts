@@ -1,6 +1,35 @@
-import { vi, expect, it, beforeEach, afterAll } from 'vitest'
+import { vi, expect, it, beforeEach, afterAll, Mock } from 'vitest'
 import incident from './index'
 import { webhookError } from '../setup-global-fetch'
+interface CustomMatchers<R = unknown> {
+  checkBodySent: (nodeEnv: string, error: Error) => R
+}
+
+declare global {
+  namespace Vi {
+    interface Assertion extends CustomMatchers { }
+    interface AsymmetricMatchersContaining extends CustomMatchers { }
+  }
+}
+expect.extend({
+  checkBodySent: (received, expectedNodeEnv, error) => {
+    const { body } = received
+    const { text } = JSON.parse(body)
+    const serializedProps = error.serializeToIncidentChat ? error.serializeToIncidentChat() : null
+    const propsPattern = serializedProps ? `PROPS 📋 ${serializedProps}\n` : ''
+    const stackPattern = error.stack ? `STACK 📋 Error: ${error.message}` : 'STACK 📋 UNKNOWN'
+    const pattern = `\\[${expectedNodeEnv}#.*\\] @ .*\n\n${propsPattern}${stackPattern}`
+    if (!text.match(pattern)) {
+      console.error('Pattern doesnt match', { text, pattern })
+      return {
+        message: () => `expected ${received} to match ${pattern}`,
+        pass: false
+      }
+    }
+
+    return { pass: true, message: () => 'OK' }
+  }
+})
 
 const { GoogleChatService } = incident
 
@@ -14,6 +43,7 @@ afterAll(() => {
   vi.restoreAllMocks()
 })
 beforeEach(() => {
+  (fetch as Mock).mockClear()
   logger.error.mockReset()
   logger.debug.mockReset()
   logger.log.mockReset()
@@ -75,11 +105,52 @@ it('should handle serialization error', () => {
   expect(logger.error).toHaveBeenNthCalledWith(1, { msg: 'Cannot send incident report, unexpected exception' })
 })
 
-it('should handle webhook error', async () => {
+it('should handle basic error', async () => {
   const chat = new GoogleChatService('webhook.test?resp=KO', logger)
   const errorToReport = new Error('test')
 
   await chat.sendIncidentToGoogleChat(errorToReport)
   expect(logger.error).toHaveBeenNthCalledWith(1, expect.objectContaining({ msg: 'Cannot send msg to google chat' }))
   expect(logger.error).toHaveBeenNthCalledWith(2, webhookError)
+})
+
+it('should format basic error', async () => {
+  const chat = new GoogleChatService('webhook.test?resp=OK', logger)
+  const errorToReport = new Error('testError')
+
+  process.env.NODE_ENV = 'test_thread'
+  await chat.sendIncidentToGoogleChat(errorToReport)
+  expect(fetch).toHaveBeenCalledTimes(1)
+  expect(fetch).toHaveBeenCalledWith('webhook.test?resp=OK&threadKey=test_thread', expect.checkBodySent('test_thread', errorToReport))
+})
+
+it('should format extended error', async () => {
+  const chat = new GoogleChatService('webhook.test?resp=OK', logger)
+  class SerializableError extends Error {
+    serializeToIncidentChat (): string {
+      return 'hey error ' + this.message
+    }
+  }
+  const serializableError = new SerializableError('kabooom')
+
+  process.env.NODE_ENV = 'test_thread'
+  await chat.sendIncidentToGoogleChat(serializableError)
+  expect(fetch).toHaveBeenCalledTimes(1)
+  expect(fetch).toHaveBeenCalledWith('webhook.test?resp=OK&threadKey=test_thread', expect.checkBodySent('test_thread', serializableError))
+})
+
+it('should format unknown stack error', async () => {
+  const chat = new GoogleChatService('webhook.test?resp=OK', logger)
+  class ErrorWithoutStack extends Error {
+    constructor (msg: string) {
+      super(msg)
+      this.stack = undefined
+    }
+  }
+  const serializableError = new ErrorWithoutStack('crap')
+
+  process.env.NODE_ENV = 'production'
+  await chat.sendIncidentToGoogleChat(serializableError)
+  expect(fetch).toHaveBeenCalledTimes(1)
+  expect(fetch).toHaveBeenCalledWith('webhook.test?resp=OK&threadKey=production', expect.checkBodySent('production', serializableError))
 })

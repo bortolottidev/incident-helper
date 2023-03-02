@@ -1,2 +1,4 @@
 node_modules/
+example_dist/
+coverage/
 dist/
